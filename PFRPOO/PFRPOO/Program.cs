@@ -246,19 +246,11 @@ namespace ProjetS6
         }
 
 
-        //Afficher une partie du personnel(
-
-        //Menu
-        static void Menu(Administration monAdmi)
+        //Afficher une partie du personnel ou des attractions
+        static void Selection(Administration monAdmi, string chemin)
         {
-            Console.WriteLine("");
-            Console.WriteLine("-------- Bienvenu dans le logiciel de gestion du parc ZOMBELIUM --------");
-            Console.WriteLine("");
 
-            Console.WriteLine("Quel operation voulez vous effectuer ? :");
-            Console.WriteLine("");
-
-            Console.WriteLine("1- Ajouter une attraction\n2- Ajouter un membre au personnel\n3- Afficher toutes attractions du parc\n4- Afficher tout les membres du personnel du parc\n5- Quitter le menu ");
+            Console.WriteLine("1- Afficher un type d'attraction\n2- Afficher un types de monstre ");
             int choix = -1;
 
             while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
@@ -267,29 +259,92 @@ namespace ProjetS6
             {
                 case 1:
                     Console.WriteLine("");
+                    List<Attraction>maliste1=monAdmi.SelectionAttraction();
+                    AfficherAttraction(maliste1);
+
+                    File.Delete(chemin + "/liste_attractions.csv");//On supprime le fichier déjà existant
+
+                    StreamWriter nouveau_fichier1 = new StreamWriter(chemin+"/liste_attractions.csv");
+
+                    for(int i=0; i<maliste1.Count; i++)
+                    {
+                        nouveau_fichier1.WriteLine(maliste1[i].ToString());
+                    }
+
+                    nouveau_fichier1.Close();
+                    Console.WriteLine("");
+                    break;
+                    
+               case 2:
+                    Console.WriteLine("");
+                    List<Personnel> maliste2 = monAdmi.SelectionPersonnel();
+                    AfficherPersonnel(maliste2);
+
+                    File.Delete(chemin + "/liste_personnel.csv");//On supprime le fichier déjà existant
+
+                    StreamWriter nouveau_fichier2 = new StreamWriter(chemin+"/liste_personnel.csv");
+                    
+                    for (int i = 0; i < maliste2.Count; i++)
+                    {
+                        nouveau_fichier2.WriteLine(maliste2[i].ToString());
+                    }
+
+                    nouveau_fichier2.Close();
+                    Console.WriteLine("");
+                    break;
+            }
+        }
+
+
+        //Menu
+        static void Menu(Administration monAdmi, string chemin)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("-------- Bienvenu dans le logiciel de gestion du parc ZOMBELIUM --------");
+            Console.WriteLine("");
+
+            Console.WriteLine("Quel operation voulez vous effectuer ? :");
+            Console.WriteLine("");
+
+            Console.WriteLine("1- Ajouter une attraction\n2- Ajouter un membre au personnel\n3- Afficher toutes attractions du parc\n4- Afficher tout les membres du personnel du parc" +
+                "\n5- Afficher un ensemble particulier\n6- Quitter le menu ");
+            int choix = -1;
+
+            while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
+
+            switch (choix)
+            {
+                case 1:
+                    Console.WriteLine("");
                     monAdmi.MainAjouterAttraction();
-                    Menu(monAdmi);
+                    Menu(monAdmi, chemin);
                     Console.WriteLine("");
                     break;
                 case 2:
                     Console.WriteLine("");
                     monAdmi.MainAjouterPersonnel();
-                    Menu(monAdmi);
+                    Menu(monAdmi, chemin);
                     Console.WriteLine("");
                     break;
                 case 3:
                     Console.WriteLine("");
                     AfficherAttraction(monAdmi.Attractions);
-                    Menu(monAdmi);
+                    Menu(monAdmi, chemin);
                     Console.WriteLine("");
                     break;
                 case 4:
                     Console.WriteLine("");
                     AfficherPersonnel(monAdmi.ToutLePersonnel);
-                    Menu(monAdmi);
+                    Menu(monAdmi, chemin);
                     Console.WriteLine("");
                     break;
                 case 5:
+                    Console.WriteLine("");
+                    Selection(monAdmi,chemin);
+                    Menu(monAdmi,chemin);
+                    Console.WriteLine("");
+                    break;
+                case 6:
                     Console.WriteLine("");
                     Console.WriteLine("Vous quittez le menu !");
                     Console.WriteLine("");
@@ -302,8 +357,10 @@ namespace ProjetS6
         public static void Main(string[] args)
             {
 
-                Administration monAdmi = LectureFichierExcel("/Users/johann/Documents/ProgrammationobjetetinterfaceC#/PFRPOO/PFRPOO/Listing.csv");
-                Menu(monAdmi);
+                string chemin = "/Users/johann/Documents/ProgrammationobjetetinterfaceC#/PFRPOO/PFRPOO";
+
+                Administration monAdmi = LectureFichierExcel(chemin+"/Listing.csv");
+                Menu(monAdmi,chemin);
             }
 
 

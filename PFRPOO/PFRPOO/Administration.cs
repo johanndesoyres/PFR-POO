@@ -410,7 +410,7 @@ namespace ProjetS6
             ToutLePersonnel.Add(a);
         }
 
-
+        //Ajoute un type de personnel à la liste de personnel
         public void MainAjouterPersonnel()
         {
             Console.WriteLine("Quel type de personnel voulez vous ajouter :");
@@ -461,6 +461,302 @@ namespace ProjetS6
 
         }
 
-       
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+
+        //Creer une liste d'attractions selon un critere
+        public List<Attraction> SelectionAttraction()
+        {
+            List<Attraction> ma_selection = new List<Attraction>();
+
+            ma_selection = attractions;
+
+            Console.WriteLine("1- Liste des attrcatuions avec un besoin specifique \n2- Liste des attractions en maintenance\n3- Liste des attractions ouvertes" +
+               "\n4- Listes des boutiques\n5- Liste des DarkRides\n6- Liste des Rollercoasters \n7- Liste des Spectacles ");
+            int choix = -1;
+
+            while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
+
+            switch (choix)
+            {
+                case 1:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest1);//RemoveAll() supprime toues les attractions de ma_selection pour lesquelles le test renvoie true
+                    Console.WriteLine("");
+                    break;
+                case 2:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest2);
+                    Console.WriteLine("");
+                    break;
+                case 3:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest3);
+                    Console.WriteLine("");    
+                    break;
+                case 4:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest4);
+                    Console.WriteLine("");
+                    break;
+                case 5:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest5);
+                    Console.WriteLine("");
+                    break;
+                case 6:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest6);
+                    Console.WriteLine("");
+                    break;
+                case 7:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(montest7);
+                    Console.WriteLine("");
+                    break;
+
+
+            }
+
+            return ma_selection;
+
+        }
+
+        //Si le test renvoie true l'attraction a est supprimée
+
+        //Test si l'attraction a un besoin spécifique
+        private bool montest1(Attraction a)
+        {
+            bool resultat = false;
+
+            resultat = a.pas_besoinspecifique();
+            return resultat;
+          
+        }
+        //Test si l'attraction est en maintenance
+        private bool montest2(Attraction a)
+        {
+            bool resultat = a.pas_maintenance();
+            return resultat;
+
+        }
+        //Test si l'attraction est ouverte
+        private bool montest3(Attraction a)
+        {
+            bool resultat = a.pas_ouvert();
+            return resultat;
+
+        }
+        //Test si l'attraction est une boutique
+        private bool montest4(Attraction a)
+        {
+
+            bool resultat = true;
+
+            if(a is Boutique) { resultat = false; }
+            
+            return resultat;
+
+        }
+        //Test si l'attraction est un DrakRide
+        private bool montest5(Attraction a)
+        {
+
+            bool resultat = true;
+
+            if (a is DarkRide) { resultat = false; }
+
+            return resultat;
+
+        }
+        //Test si l'attraction est un Rollercoaster
+        private bool montest6(Attraction a)
+        {
+
+            bool resultat = true;
+
+            if (a is RollerCoaster) { resultat = false; }
+
+            return resultat;
+
+        }
+        //Test si l'attraction est un Spectacle
+        private bool montest7(Attraction a)
+        {
+
+            bool resultat = true;
+
+            if (a is Spectacle) { resultat = false; }
+
+            return resultat;
+
+        }
+
+        //---------------------------------------------------------------------------------------------
+
+        //Creer une liste de personnel selon un critere
+        public List<Personnel> SelectionPersonnel()
+        {
+            List<Personnel> ma_selection = new List<Personnel>();
+
+            ma_selection = toutLePersonnel;
+
+            Console.WriteLine("1- Liste des monstres affecté a une Boutique \n2- Liste des monstres affecté a un DarkRide\n3- Liste des monstres affecté a un RollerCoaster" +
+               "\n4- Liste des monstres affecté a un Spectacle\n5- Liste des Sorciers\n6- Liste des Démons \n7- Liste des Loups-Garous\n8- Liste des vampires\n9- Liste des Fantômes\n10- Liste des Zombies ");
+            int choix = -1;
+
+            while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
+
+            switch (choix)
+            {
+                case 1:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test1);
+                    Console.WriteLine("");
+                    break;
+                case 2:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test2);
+                    Console.WriteLine("");
+                    break;
+                case 3:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test3);
+                    Console.WriteLine("");
+                    break;
+                case 4:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test4);
+                    Console.WriteLine("");
+                    break;
+                case 5:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test5);
+                    Console.WriteLine("");
+                    break;
+                case 6:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test6);
+                    Console.WriteLine("");
+                    break;
+                case 7:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test7);
+                    Console.WriteLine("");
+                    break;
+                case 8:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test8);
+                    Console.WriteLine("");
+                    break;
+                case 9:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test9);
+                    Console.WriteLine("");
+                    break;
+                case 10:
+                    Console.WriteLine("");
+                    ma_selection.RemoveAll(test10);
+                    Console.WriteLine("");
+                    break;
+
+            }
+
+            return ma_selection;
+
+        }
+
+        //Si le test renvoie true le personnel a est supprimé
+
+       //Test si le personnel a une affectation sur une boutique
+        private bool test1(Personnel a)
+        {
+            bool resultat = false;
+
+            if (a is Monstre) { resultat = (a as Monstre).affectation_Boutique(); }
+            return resultat;
+
+        }
+        //Test si le personnel a une affectation sur un DarkRide
+        private bool test2(Personnel a)
+        {
+            bool resultat = false;
+
+            if (a is Monstre) { resultat = (a as Monstre).affectation_DarkRide(); }
+            return resultat;
+
+        }
+        //Test si le personnel a une affectation sur un Rollercoaster
+        private bool test3(Personnel a)
+        {
+            bool resultat = false;
+
+            if (a is Monstre) { resultat = (a as Monstre).affectation_Rollercoaster(); }
+            return resultat;
+
+        }
+        //Test si le personnel sur un Spectacle
+        private bool test4(Personnel a)
+        {
+            bool resultat = false;
+
+            if (a is Monstre) { resultat = (a as Monstre).affectation_Spectacle(); }
+            return resultat;
+
+        }
+        //Test si le personnel est un sorcier
+        private bool test5(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is Sorcier) { resultat = false; }
+            return resultat;
+
+        }
+        //Test si le personnel est un démon
+        private bool test6(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is Demon) { resultat = false ; }
+            return resultat;
+
+        }
+        //Test si le personnel est un Loup-Garou
+        private bool test7(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is LoupGarou) { resultat = false; }
+            return resultat;
+
+        }
+        //Test si le personnel est un Vampire
+        private bool test8(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is Vampire) { resultat = false; }
+            return resultat;
+
+        }
+        //Test si le personnel est un Fantome
+        private bool test9(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is Fantome) { resultat = false; }
+            return resultat;
+
+        }
+        //Test si le personnel est un Zombie
+        private bool test10(Personnel a)
+        {
+            bool resultat = true;
+
+            if (a is Zombie) { resultat = false; }
+            return resultat;
+
+        }
     }
 }

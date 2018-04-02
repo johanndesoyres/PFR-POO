@@ -40,6 +40,8 @@ namespace ProjetS6
             return string.Format("Function={0} \nMatricule={1}\nNom={2}\nPrenom={3}", Function, Matricule, Nom, Prenom);
         }
 
+        
+
 
     }
 }

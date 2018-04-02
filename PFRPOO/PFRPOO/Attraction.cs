@@ -36,8 +36,8 @@ namespace ProjetS6
             this.BesoinSpecifique = besoinSpecifique;
             this.dureeMaintenance = new TimeSpan(0,0,0);
             this.equipe = null;
-            this.identifiant = identifiant;
             this.maintenance = false;
+            this.identifiant = identifiant;
             this.natureMaintenance = null;
             this.NbMinMonstre = nbMinMonstre;
             this.nom = nom;
@@ -52,7 +52,41 @@ namespace ProjetS6
             return "Nom : " + Nom + "\nIdentifiant : " + Identifiant+ "\n";
         }
 
+        public bool pas_besoinspecifique()
+        {
+            bool suppression = true;
+            if (besoinSpecifique) { suppression = false; }
+            return suppression;
+        }
 
+        public bool pas_maintenance()
+        {
+            bool suppression = true;
+            if (maintenance) { suppression = false; }
+            return suppression;
+        }
+
+        public bool test_nbminMonstres(int nb, string condition)
+        {
+            bool suppression = true;
+            if (condition == ">=")
+            {
+                if (nbMinMonstre >= nb) { suppression = false; }
+            }
+            else
+            {
+                if (nbMinMonstre <= nb) { suppression = false; }
+            }
+            return suppression;
+            
+        }
+
+        public bool pas_ouvert()
+        {
+            bool suppression = true;
+            if (ouvert) { suppression = false; }
+            return suppression;
+        }
 
     }
 }
