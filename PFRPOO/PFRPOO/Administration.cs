@@ -15,7 +15,7 @@ namespace ProjetS6
         public List<Attraction> Attractions { get => attractions; set => attractions = value; }
         public List<Personnel> ToutLePersonnel { get => toutLePersonnel; set => toutLePersonnel = value; }
 
-        public Administration(List<Attraction> attractions,List<Personnel> toutLePersonnel)
+        public Administration(List<Attraction> attractions, List<Personnel> toutLePersonnel)
         {
             this.Attractions = attractions;
             this.ToutLePersonnel = toutLePersonnel;
@@ -24,102 +24,124 @@ namespace ProjetS6
         //renvoie une attraction
         public Attraction creer_attraction()
         {
-            Attraction a = new Attraction();
-
+            int identifiant = 0;
+            string nom = "";
+            int nbMinMonstre = 0;
+            string typeDeBesoin = "";
+            bool besoinSpecifique = false;
             try
             {
-                Console.WriteLine("identifiant:");
-                a.Identifiant = int.Parse(Console.ReadLine());
+                Console.WriteLine("identifiant (composé de chiffre):");
+                identifiant = int.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
 
             Console.WriteLine("");
             Console.WriteLine("nom:");
-            a.Nom = Console.ReadLine();
-            Console.WriteLine("nom:");
+            nom = Console.ReadLine();
+            Console.WriteLine("");
+            //Console.WriteLine("nom:");
 
             try
             {
                 Console.WriteLine("nombre minimum de monstres:");
-                a.NbMinMonstre = int.Parse(Console.ReadLine());
+                nbMinMonstre = int.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                Console.WriteLine("besoin specifique (0 pour true sinon false) :");
-                a.BesoinSpecifique = bool.Parse(Console.ReadLine());
+                Console.WriteLine("besoin specifique (true ou false) :");
+                besoinSpecifique = bool.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                Console.WriteLine("type de besoin:");
-                a.TypeDeBesoin = Console.ReadLine();
+                Console.WriteLine("type de besoin: ");
+                typeDeBesoin = Console.ReadLine();
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
+            Attraction a = new Attraction(besoinSpecifique, identifiant, nbMinMonstre, nom, typeDeBesoin);
             return a;
         }
 
         //ajouter un spectacle dans une liste d'attraction
         public void ajouter_spectacle()
         {
-            Spectacle a = creer_attraction() as Spectacle;
-
+            Attraction a = creer_attraction();
+            string nomSalle = "";
+            int nombrePlace = 0;
+            List<DateTime> horaires = new List<DateTime>();
             try
             {
                 Console.WriteLine("nom de la salle:");
-                a.NomSalle = Console.ReadLine();
+                nomSalle = Console.ReadLine();
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
                 Console.WriteLine("nombre de places:");
-                a.NombrePlace = int.Parse(Console.ReadLine());
+                nombrePlace = int.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                Console.WriteLine("nombre de places:");
-                DateTime heure = DateTime.Parse(Console.ReadLine());
-                a.Horaire.Add(heure);
+                Console.WriteLine("Combien d'horaire de spectacle voulez vous rajouter ?");
+                int compt = int.Parse(Console.ReadLine());
+
+
+                for (int i = 0; i < compt; i++)
+                {
+                    Console.WriteLine("Nouvelle horaire : ");
+                    Console.Write("Heure : ");
+                    int hour = int.Parse(Console.ReadLine());
+                    Console.Write("Minute : ");
+                    int minute = int.Parse(Console.ReadLine());
+                    DateTime t = DateTime.Now;
+                    DateTime d = new DateTime(t.Year, t.Month, t.Day, hour, minute, 0);
+                    horaires.Add(d);
+                }
+
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
-            this.Attractions.Add(a);
+            Spectacle b = new Spectacle(a.Identifiant, a.Nom, a.NbMinMonstre, a.BesoinSpecifique, a.TypeDeBesoin, nomSalle, nombrePlace, horaires);
+            this.Attractions.Add(b);
         }
 
         //ajouter un DarkRide dans une liste d'attraction
         public void ajouter_DarkRide()
         {
-            DarkRide a = creer_attraction() as DarkRide;
-
+            Attraction a = creer_attraction();
+            TimeSpan duree = new TimeSpan();
+            bool vehicule = false;
             try
             {
-                Console.WriteLine("duree:");
-                a.Duree = TimeSpan.Parse(Console.ReadLine());
+                Console.WriteLine("duree de l'attraction en heure : ");
+                duree = TimeSpan.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                Console.WriteLine("vehicule (0 pour true sinon false) :");
-                a.Vehicule = bool.Parse(Console.ReadLine());
+                Console.WriteLine("vehicule (true ou false) :");
+                vehicule = bool.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
-            attractions.Add(a);
+            DarkRide b = new DarkRide(a.Identifiant, a.Nom, a.NbMinMonstre, a.BesoinSpecifique, a.TypeDeBesoin, duree, vehicule);
+            attractions.Add(b);
 
 
         }
@@ -127,51 +149,53 @@ namespace ProjetS6
         //ajouter une boutique dans une liste d'attraction
         public void ajouter_Boutique()
         {
-            Boutique a = creer_attraction() as Boutique;
-
+            Attraction a = creer_attraction();
+            typeBoutique type = typeBoutique.none;
             try
             {
-                Console.WriteLine("type de Boutique :");
-                a.Type = (typeBoutique)Enum.Parse(typeof(typeBoutique), Console.ReadLine());
+                Console.WriteLine("type de Boutique (souvenir, barbeAPapa, nourriture) :");
+                type = (typeBoutique)Enum.Parse(typeof(typeBoutique), Console.ReadLine());
 
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            attractions.Add(a);
+            Boutique b = new Boutique(a.Identifiant, a.Nom, a.NbMinMonstre, a.BesoinSpecifique, a.TypeDeBesoin, type);
+            attractions.Add(b);
 
         }
 
         //ajouter un RollerCoaster dans une liste d'attraction
         public void ajouter_RollerCoaster()
         {
-            RollerCoaster a = creer_attraction() as RollerCoaster;
-
+            Attraction a = creer_attraction();
+            int ageMinimum = -1;
+            float tailleMinimum = 0;
+            TypeCategorie categorie = TypeCategorie.none;
             try
             {
-                Console.WriteLine(" categorie :");
-                a.Categorie = (TypeCategorie)Enum.Parse(typeof(TypeCategorie), Console.ReadLine());
+                Console.WriteLine(" categorie (assise, inversee, bobsleigh) : ");
+                categorie = (TypeCategorie)Enum.Parse(typeof(TypeCategorie), Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
                 Console.WriteLine("age minimum :");
-                a.AgeMinimum = int.Parse(Console.ReadLine());
+                ageMinimum = int.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
                 Console.WriteLine("Taille minimum :");
-                a.TailleMinimum = float.Parse(Console.ReadLine());
+                tailleMinimum = float.Parse(Console.ReadLine());
             }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            attractions.Add(a);
+            RollerCoaster b = new RollerCoaster(a.Identifiant, a.Nom, a.NbMinMonstre, a.BesoinSpecifique, a.TypeDeBesoin, categorie, ageMinimum, tailleMinimum);
+            attractions.Add(b);
 
         }
 
@@ -215,12 +239,22 @@ namespace ProjetS6
         //On cree un membre personnel
         public Personnel creer_personnel()
         {
-            Personnel a = new Personnel();
-
+            string function = "";
+            int matricule = 0;
+            string nom = "";
+            string prenom = "";
+            Typesexe sex = Typesexe.none;
+            try
+            {
+                Console.WriteLine("Function :");
+                function = Console.ReadLine();
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+            Console.WriteLine("");
             try
             {
                 Console.WriteLine("Matricule :");
-                a.Matricule = int.Parse(Console.ReadLine());
+                matricule = int.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
 
@@ -228,7 +262,7 @@ namespace ProjetS6
             try
             {
                 Console.WriteLine("Nom :");
-                a.Nom = Console.ReadLine();
+                nom = Console.ReadLine();
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
@@ -236,21 +270,21 @@ namespace ProjetS6
             try
             {
                 Console.WriteLine("Prenom :");
-                a.Prenom = Console.ReadLine();
+                prenom = Console.ReadLine();
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                Console.WriteLine("type de Boutique :");
-                a.Sexe = (Typesexe)Enum.Parse(typeof(Typesexe), Console.ReadLine());
+                Console.WriteLine("Sexe :");
+                sex = (Typesexe)Enum.Parse(typeof(Typesexe), Console.ReadLine());
 
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
-
+            Personnel a = new Personnel(function, matricule, nom, prenom, sex);
 
             return a;
         }
@@ -258,18 +292,20 @@ namespace ProjetS6
         //On cree un membre monstre
         public Monstre creer_monstre()
         {
-            Monstre a = creer_personnel() as Monstre;
+            Personnel a = creer_personnel();
+            int cagnotte = 0;
+            Attraction affectation = null;
             try
             {
                 Console.WriteLine("Cagnotte :");
-                a.Cagnotte = int.Parse(Console.ReadLine());
+                cagnotte = int.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
             try
             {
-                foreach(Attraction i in attractions)
+                foreach (Attraction i in attractions)
                 {
                     Console.WriteLine("");
                     i.ToString();
@@ -277,29 +313,34 @@ namespace ProjetS6
                 }
                 Console.WriteLine("Choissisez l'identifiant de l'attraction à affectée :");
                 int id = int.Parse(Console.ReadLine());
-                for(int i=0; i<attractions.Count; i++)
+                for (int i = 0; i < attractions.Count; i++)
                 {
-                    if (attractions[i].Identifiant == id) {a.Affectation = attractions.ElementAt(i);}
+                    if (attractions[i].Identifiant == id) { affectation = attractions.ElementAt(i); }
                 }
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
 
-            return a;
+            Monstre b = new Monstre(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, cagnotte, affectation);
+            return b;
+
 
         }
 
         //ajouter un sorcier dans une liste de personnel
         public void ajouter_sorcier()
         {
-            Sorcier a = creer_personnel() as Sorcier;
-
+            Personnel a = creer_personnel();
+            grade tatouage = grade.none;
+            List<string> mesPouvoirs = new List<string>();
             try
             {
                 Console.WriteLine("Tatouage :");
-                a.Tatouage = (grade)Enum.Parse(typeof(grade), Console.ReadLine());
+                tatouage = (grade)Enum.Parse(typeof(grade), Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+
+
             Console.WriteLine("");
 
             try
@@ -308,12 +349,12 @@ namespace ProjetS6
                 int nb_pouvoirs = int.Parse(Console.ReadLine());
                 int i = 0;
                 Console.WriteLine("Pouvoirs :");
-                while (i != nb_pouvoirs) 
+                while (i != nb_pouvoirs)
                 {
-                    a.Pouvoirs.Add(Console.ReadLine());
+                    mesPouvoirs.Add(Console.ReadLine());
                     i++;
                 }
-                 
+
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
@@ -325,60 +366,62 @@ namespace ProjetS6
         //ajouter un démon dans une liste de personnel
         public void ajouter_demon()
         {
-            Demon a = creer_monstre() as Demon;
-
+            Monstre a = creer_monstre();
+            int force = 0;
             try
             {
                 Console.WriteLine("Force :");
-                a.Force = int.Parse(Console.ReadLine());
+                force = int.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            ToutLePersonnel.Add(a);
+            Demon b = new Demon(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, a.Cagnotte, a.Affectation, force);
+            ToutLePersonnel.Add(b);
         }
 
         //ajouter un loup-garou dans une liste de personnel
         public void ajouter_loupgarous()
         {
-            LoupGarou a = creer_monstre() as LoupGarou;
-
+            Monstre a = creer_monstre();
+            float indiceCruaute = 0;
             try
             {
                 Console.WriteLine("Indice de cruauté :");
-                a.IndiceCruaute = float.Parse(Console.ReadLine());
+                indiceCruaute = float.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            ToutLePersonnel.Add(a);
+            LoupGarou b = new LoupGarou(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, a.Cagnotte, a.Affectation, indiceCruaute);
+            ToutLePersonnel.Add(b);
         }
 
         //ajouter un vampire dans une liste de personnel
         public void ajouter_vampire()
         {
-            Vampire a = creer_monstre() as Vampire;
-
+            Monstre a = creer_monstre();
+            float indiceLuminosite = 0;
             try
             {
                 Console.WriteLine("Indice de luminosité :");
-                a.IndiceLuminosite = float.Parse(Console.ReadLine());
+                indiceLuminosite = float.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            ToutLePersonnel.Add(a);
+            Vampire b = new Vampire(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, a.Cagnotte, a.Affectation, indiceLuminosite);
+            ToutLePersonnel.Add(b);
         }
 
         //ajouter un zombie dans une liste de personnel
         public void ajouter_zombie()
         {
-            Zombie a = creer_monstre() as Zombie;
+            Monstre a = creer_monstre();
 
+            int degreDecomposition = 0;
+            CouleurZ teint = CouleurZ.none;
             try
             {
                 Console.WriteLine("Degré de décomposition :");
-                a.DegreDecomposition = int.Parse(Console.ReadLine());
+                degreDecomposition = int.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
@@ -386,31 +429,22 @@ namespace ProjetS6
             try
             {
                 Console.WriteLine("Couleur du zombie :");
-                a.Teint = (CouleurZ)Enum.Parse(typeof(CouleurZ), Console.ReadLine());
+                teint = (CouleurZ)Enum.Parse(typeof(CouleurZ), Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
-            ToutLePersonnel.Add(a);
+            Zombie b = new Zombie(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, a.Cagnotte, a.Affectation, teint, degreDecomposition);
+            ToutLePersonnel.Add(b);
         }
 
         //ajouter un fantome dans une liste de personnel
         public void ajouter_fantome()
         {
             Fantome a = creer_monstre() as Fantome;
-
-            try
-            {
-                Console.WriteLine("Atout :");
-                a.Atout = Console.ReadLine();
-            }
-            catch (InvalidCastException e) { Console.WriteLine(e.Message); }
-            Console.WriteLine("");
-
             ToutLePersonnel.Add(a);
         }
 
-        //Ajoute un type de personnel à la liste de personnel
+
         public void MainAjouterPersonnel()
         {
             Console.WriteLine("Quel type de personnel voulez vous ajouter :");
