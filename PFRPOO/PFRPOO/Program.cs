@@ -9,18 +9,19 @@ namespace ProjetS6
 {
     class MainClass
     {
-      
+
         //Méthodes pour lire le fichier
-        static Attraction QuelEstAttraction(List<Attraction>Liste_attraction, int num)
+        static Attraction QuelEstAttraction(List<Attraction> Liste_attraction, int num)
         {
             Attraction a = null;
-            foreach(Attraction i in Liste_attraction)
+            foreach (Attraction i in Liste_attraction)
             {
                 if (i.Identifiant == num) a = i;
             }
             return a;
         }
-        static List<Personnel> LecturePersonnel(StreamReader monStreamReader, List<Attraction>liste_attraction)
+
+        static List<Personnel> LecturePersonnel(StreamReader monStreamReader, List<Attraction> liste_attraction)
         {
             List<Personnel> liste_personnel = new List<Personnel>();
             string ligne = monStreamReader.ReadLine(); //on stock la premiere ligne 
@@ -29,14 +30,14 @@ namespace ProjetS6
             {
                 string[] temp = ligne.Split(';');
                 Typesexe type_sex = Typesexe.none;
-                int matricule=-1;
-                try {matricule = int.Parse(temp[1]);}catch(InvalidCastException e) {Console.WriteLine(e.Message);}
-                try { type_sex = (Typesexe)Enum.Parse(typeof(Typesexe), temp[4]); } catch(InvalidCastException e){Console.WriteLine(e.Message);}
+                int matricule = -1;
+                try { matricule = int.Parse(temp[1]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+                try { type_sex = (Typesexe)Enum.Parse(typeof(Typesexe), temp[4]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
                 int c = -1;
-                Attraction monAttraction = null ;
-                if(temp[0]!="Sorcier")
+                Attraction monAttraction = null;
+                if (temp[0] != "Sorcier")
                 {
-                    
+
                     try { c = int.Parse(temp[7]); } catch (FormatException e) { Console.WriteLine(e.Message); }
                     monAttraction = QuelEstAttraction(liste_attraction, c);
                 }
@@ -46,7 +47,7 @@ namespace ProjetS6
                 {
                     case "Sorcier":
                         grade G = grade.none;
-                        try { G = (grade)Enum.Parse(typeof(grade), temp[6]); } catch(InvalidCastException e){Console.WriteLine(e.Message);}
+                        try { G = (grade)Enum.Parse(typeof(grade), temp[6]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
 
                         List<string> liste_p = new List<string>();
                         string[] temp2 = temp[7].Split('-');
@@ -61,15 +62,15 @@ namespace ProjetS6
                     case "Monstre":
 
                         int cagnotte_monstre = 0;
-                        try {cagnotte_monstre = int.Parse(temp[6]);}catch(InvalidCastException e){Console.WriteLine(e.Message);}
-                        Monstre monMonstre = new Monstre(matricule, temp[2], temp[3], type_sex, temp[5], cagnotte_monstre,monAttraction );
+                        try { cagnotte_monstre = int.Parse(temp[6]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+                        Monstre monMonstre = new Monstre(matricule, temp[2], temp[3], type_sex, temp[5], cagnotte_monstre, monAttraction);
                         liste_personnel.Add(monMonstre);
                         break;
 
                     case "Demon":
-                        int cagnotte_demon= int.Parse(temp[6]);
+                        int cagnotte_demon = int.Parse(temp[6]);
                         int force = int.Parse(temp[8]);
-                        Demon monDemon = new Demon(matricule, temp[2], temp[3], type_sex, temp[5],  cagnotte_demon, monAttraction,force);
+                        Demon monDemon = new Demon(matricule, temp[2], temp[3], type_sex, temp[5], cagnotte_demon, monAttraction, force);
                         liste_personnel.Add(monDemon);
                         break;
 
@@ -110,14 +111,14 @@ namespace ProjetS6
         {
             List<Attraction> liste_attraction = new List<Attraction>();
 
-            string ligne=null;
-            for (int i = 0; i < 18;i++)
+            string ligne = null;
+            for (int i = 0; i < 18; i++)
             {
-                ligne = monStreamReader.ReadLine(); 
+                ligne = monStreamReader.ReadLine();
             }
 
 
-            while (ligne != null) 
+            while (ligne != null)
             {
                 string[] temp = ligne.Split(';');
                 int identifiant = int.Parse(temp[1]);
@@ -126,19 +127,19 @@ namespace ProjetS6
 
                 switch (temp[0])
                 {
-                    
+
                     case "Boutique":
                         typeBoutique monType = typeBoutique.none;
-                        try { monType = (typeBoutique)Enum.Parse(typeof(typeBoutique), temp[6]); } catch(InvalidCastException e){Console.WriteLine(e.Message);}
-                        Boutique maBoutique = new Boutique(identifiant, temp[2], nbMinimMonstre, besoinSpecifique,temp[5], monType);
+                        try { monType = (typeBoutique)Enum.Parse(typeof(typeBoutique), temp[6]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+                        Boutique maBoutique = new Boutique(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5], monType);
                         liste_attraction.Add(maBoutique);
                         break;
                     case "DarkRide":
                         TimeSpan T = new TimeSpan(0, 0, 0);
                         try { int heure = int.Parse(temp[6]); T = new TimeSpan(heure, 0, 0); } catch (Exception e) { Console.Write(e.Message); }
-                        bool vehicule = false ;try { vehicule = bool.Parse(temp[7]); }catch(InvalidCastException e){Console.WriteLine(e.Message);}
+                        bool vehicule = false; try { vehicule = bool.Parse(temp[7]); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
 
-                        DarkRide monDarkRide = new DarkRide(identifiant, temp[2], nbMinimMonstre, besoinSpecifique,temp[5],T,vehicule);
+                        DarkRide monDarkRide = new DarkRide(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5], T, vehicule);
                         liste_attraction.Add(monDarkRide);
                         break;
                     case "RollerCoaster":
@@ -146,19 +147,19 @@ namespace ProjetS6
                         float tailleMinim = float.Parse(temp[8]);
                         TypeCategorie MyType;
                         MyType = (TypeCategorie)Enum.Parse(typeof(TypeCategorie), temp[6]);
-                        RollerCoaster monRollerCoaster = new RollerCoaster(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5],MyType ,ageMinim, tailleMinim);
+                        RollerCoaster monRollerCoaster = new RollerCoaster(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5], MyType, ageMinim, tailleMinim);
                         liste_attraction.Add(monRollerCoaster);
                         break;
                     case "Spectacles":
                         List<DateTime> liste_horaire = new List<DateTime>();
                         int nbPlace = int.Parse(temp[7]);
                         string[] temp2 = temp[8].Split(' ');
-                        for (int i = 0; i<temp2.Length;i++)
+                        for (int i = 0; i < temp2.Length; i++)
                         {
                             DateTime m = Convert.ToDateTime(temp2[i]);
                             liste_horaire.Add(m);
                         }
-                        Spectacle monSpectacle = new Spectacle(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5], temp[6], nbPlace,liste_horaire);
+                        Spectacle monSpectacle = new Spectacle(identifiant, temp[2], nbMinimMonstre, besoinSpecifique, temp[5], temp[6], nbPlace, liste_horaire);
                         liste_attraction.Add(monSpectacle);
                         break;
                 }
@@ -169,7 +170,7 @@ namespace ProjetS6
             return liste_attraction;
 
         }
-        static Administration LectureFichierExcel(string chemin )
+        static Administration LectureFichierExcel(string chemin)
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -179,7 +180,7 @@ namespace ProjetS6
             Administration monAdmi = null;
             try
             {
-                
+
                 StreamReader monStreamReader = new StreamReader(chemin);
                 List<Attraction> maListeAttraction = LectureAttraction(monStreamReader);
                 StreamReader monStreamReader2 = new StreamReader(chemin);
@@ -187,57 +188,57 @@ namespace ProjetS6
 
                 monAdmi = new Administration(maListeAttraction, maListePersonnel);
             }
-            catch (Exception e) {  Console.WriteLine(e.Message);  }
+            catch (Exception e) { Console.WriteLine(e.Message); }
 
             Console.WriteLine("");
             Console.WriteLine("Lecture du fichier réussie !");
             Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.White;
 
 
-            return monAdmi;  
+            return monAdmi;
         }
 
         //Méthodes d'affichage
-        static void AfficherPersonnel(List<Personnel>maListe)
+        static void AfficherPersonnel(List<Personnel> maListe)
         {
             Console.WriteLine("Voici la liste du personnel :\n");
-            foreach(Personnel i in maListe)
+            foreach (Personnel i in maListe)
             {
-                if(i is Monstre)
+                if (i is Monstre)
                 {
                     Monstre M = i as Monstre;
                     Console.WriteLine(M);
                 }
-                if(i is Sorcier)
+                if (i is Sorcier)
                 {
                     Sorcier S = i as Sorcier;
                     Console.WriteLine(S);
                 }
             }
         }
-        static void AfficherAttraction(List<Attraction>maListe)
+        static void AfficherAttraction(List<Attraction> maListe)
         {
             Console.WriteLine("Voici la liste des attractions :\n");
 
-            foreach(Attraction i in maListe)
+            foreach (Attraction i in maListe)
             {
-                if(i is Spectacle)
+                if (i is Spectacle)
                 {
                     Spectacle S = i as Spectacle;
                     Console.WriteLine(S);
                 }
-                if(i is Boutique)
+                if (i is Boutique)
                 {
                     Boutique B = i as Boutique;
                     Console.WriteLine(B);
                 }
-                if(i is DarkRide)
+                if (i is DarkRide)
                 {
                     DarkRide D = i as DarkRide;
                     Console.WriteLine(D);
                 }
-                if(i is RollerCoaster)
+                if (i is RollerCoaster)
                 {
                     RollerCoaster R = i as RollerCoaster;
                     Console.WriteLine(R);
@@ -259,42 +260,126 @@ namespace ProjetS6
             {
                 case 1:
                     Console.WriteLine("");
-                    List<Attraction>maliste1=monAdmi.SelectionAttraction();
+                    List<Attraction> maliste1 = monAdmi.SelectionAttraction();
                     AfficherAttraction(maliste1);
 
-                    File.Delete(chemin + "/liste_attractions.csv");//On supprime le fichier déjà existant
+                    //File.Delete("liste_attractions.csv");//On supprime le fichier déjà existant
 
-                    StreamWriter nouveau_fichier1 = new StreamWriter(chemin+"/liste_attractions.csv");
+                    StreamWriter nouveau_fichier1 = new StreamWriter("liste_attractions.csv");
 
-                    for(int i=0; i<maliste1.Count; i++)
+
+                    foreach (Attraction i in maliste1)
                     {
-                        nouveau_fichier1.WriteLine(maliste1[i].ToString());
-                    }
+                        nouveau_fichier1.WriteLine(i);
 
+                    }
                     nouveau_fichier1.Close();
                     Console.WriteLine("");
                     break;
-                    
-               case 2:
+
+                case 2:
                     Console.WriteLine("");
                     List<Personnel> maliste2 = monAdmi.SelectionPersonnel();
                     AfficherPersonnel(maliste2);
 
-                    File.Delete(chemin + "/liste_personnel.csv");//On supprime le fichier déjà existant
+                    File.Delete("liste_personnel.csv");//On supprime le fichier déjà existant
 
-                    StreamWriter nouveau_fichier2 = new StreamWriter(chemin+"/liste_personnel.csv");
-                    
-                    for (int i = 0; i < maliste2.Count; i++)
+                    StreamWriter nouveau_fichier2 = new StreamWriter("liste_personnel.csv");
+
+
+                    foreach (Personnel i in maliste2)
                     {
-                        nouveau_fichier2.WriteLine(maliste2[i].ToString());
+                        nouveau_fichier2.WriteLine(i);
                     }
-
                     nouveau_fichier2.Close();
                     Console.WriteLine("");
                     break;
             }
         }
 
+        //Modifier la cagnotte d'un monstre
+        static void cagnotte(Administration monAdmi)
+        {
+
+            Console.WriteLine("Choissisez le matricule d'un monstre pour modifier sa cagnotte :");
+            Monstre mon_Monstre = null;
+            int mon_matricule = -1;
+
+            try { mon_matricule = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+
+            foreach (Personnel i in monAdmi.ToutLePersonnel)
+            {
+                if (i.Matricule == mon_matricule)
+                {
+                    if (i is Monstre) { mon_Monstre = i as Monstre; }
+                }
+            }
+
+            Console.WriteLine("Vous avez choisit le monstre " + mon_Monstre.ToString());
+            Console.WriteLine("");
+            Console.WriteLine("Que voulez vous faire ?");
+            Console.WriteLine("");
+            Console.WriteLine("1- Incrementer la cagnotte\n2- Decrementer la cagnotte");
+
+            int choix = -1;
+
+            while (choix != 1 && choix != 2) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
+
+            Console.WriteLine("");
+            Console.WriteLine("Choisssisez un nombre de points à enlever ou rajouter:");
+            Console.WriteLine("");
+
+            int nb_points = 0;
+            try { nb_points = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+
+            switch (choix)
+            {
+                case 1:
+                    Console.WriteLine("");
+                    mon_Monstre.Incrementer(nb_points);
+                    Console.WriteLine("Voici le nouveau statut de votre monstre");
+                    Console.WriteLine(mon_Monstre.ToString());
+                    Console.WriteLine("");
+                    break;
+                case 2:
+                    Console.WriteLine("");
+                    mon_Monstre.Decrementer(nb_points);
+                    Console.WriteLine("Voici le nouveau statut de votre monstre");
+                    Console.WriteLine(mon_Monstre.ToString());
+                    Console.WriteLine("");
+                    break;
+            }
+
+        }
+
+        //Trier des monstres ou des attractions
+        static void Trier(Administration monAdmi)
+        {
+
+            Console.WriteLine("1-Zombie en fonction de leur cagnote\n2- Demon en fonction de leur force\n3- Spectacle en fonction du nb de place\n4- Vampire en fonction de la cagnotte");
+            int choix = -1;
+
+            while (choix != 1 && choix != 2) try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); }
+            switch (choix)
+            {
+                case 1:
+                    List<Personnel> mesZombTrier = monAdmi.trierZombieParCagnotte(monAdmi.ToutLePersonnel);
+                    AfficherPersonnel(mesZombTrier);
+                    break;
+                case 2:
+                    List<Personnel> mesDemonTrier = monAdmi.trierDemonParForce(monAdmi.ToutLePersonnel);
+                    AfficherPersonnel(mesDemonTrier);
+                    break;
+                case 3:
+                    List<Attraction> mesSpectTrier = monAdmi.trierSpectacleParNbPlace(monAdmi.Attractions);
+                    AfficherAttraction(mesSpectTrier);
+                    break;
+                case 4:
+                    List<Personnel> mesVampTrier = monAdmi.trierZombieParCagnotte(monAdmi.ToutLePersonnel);
+                    AfficherPersonnel(mesVampTrier);
+                    break;
+            }
+        }
 
         //Menu
         static void Menu(Administration monAdmi, string chemin)
@@ -307,10 +392,10 @@ namespace ProjetS6
             Console.WriteLine("");
 
             Console.WriteLine("1- Ajouter une attraction\n2- Ajouter un membre au personnel\n3- Afficher toutes attractions du parc\n4- Afficher tout les membres du personnel du parc" +
-                "\n5- Afficher un ensemble particulier\n6- Quitter le menu ");
+                "\n5- Afficher un ensemble particulier\n6- Trier en fonction d'un parametre\n7- Modifier la cagnotte d'un monstre \n8- Quitter le menu ");
             int choix = -1;
 
-            while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
+            while (choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8) { try { choix = int.Parse(Console.ReadLine()); } catch (InvalidCastException e) { Console.WriteLine(e.Message); } }
 
             switch (choix)
             {
@@ -340,11 +425,23 @@ namespace ProjetS6
                     break;
                 case 5:
                     Console.WriteLine("");
-                    Selection(monAdmi,chemin);
-                    Menu(monAdmi,chemin);
+                    Selection(monAdmi, chemin);
+                    Menu(monAdmi, chemin);
                     Console.WriteLine("");
                     break;
                 case 6:
+                    Console.WriteLine("");
+                    Trier(monAdmi);
+                    Menu(monAdmi, chemin);
+                    Console.WriteLine("");
+                    break;
+                case 7:
+                    Console.WriteLine("");
+                    cagnotte(monAdmi);
+                    Menu(monAdmi,chemin);
+                    Console.WriteLine("");
+                    break;
+                case 8:
                     Console.WriteLine("");
                     Console.WriteLine("Vous quittez le menu !");
                     Console.WriteLine("");
@@ -355,16 +452,13 @@ namespace ProjetS6
         }
 
         public static void Main(string[] args)
-            {
+        {
 
-                string chemin = "/Users/johann/Documents/ProgrammationobjetetinterfaceC#/PFRPOO/PFRPOO";
+            string chemin = "/Users/johann/Documents/ProgrammationobjetetinterfaceC#/PFRPOO/PFRPOO/Listing.csv";
 
-                Administration monAdmi = LectureFichierExcel(chemin+"/Listing.csv");
-                Menu(monAdmi,chemin);
-            }
-
-
-
+            Administration monAdmi = LectureFichierExcel(chemin);
+            Menu(monAdmi, chemin);
         }
+    }
     }
 

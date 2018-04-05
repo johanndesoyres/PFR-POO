@@ -53,5 +53,13 @@ namespace ProjetS6
             if (affectation is Spectacle) { resultat = false; }
             return resultat;
         }
+        public void Incrementer(int nb_points)
+        {
+            cagnotte += nb_points;
+        }
+        public void Decrementer(int nb_points)
+        {
+            cagnotte -= nb_points;
+        }
     }
 }

@@ -254,6 +254,7 @@ namespace ProjetS6
             try
             {
                 Console.WriteLine("Matricule :");
+
                 matricule = int.Parse(Console.ReadLine());
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
@@ -503,7 +504,13 @@ namespace ProjetS6
         {
             List<Attraction> ma_selection = new List<Attraction>();
 
-            ma_selection = attractions;
+            //ma_selection = attractions; // mauvais bail tu lui affectes l'adresse 
+
+            //vaut mieux faire ca 
+            for (int i = 0; i < attractions.Count(); i++)
+            {
+                ma_selection.Add(attractions.ElementAt(i));
+            }
 
             Console.WriteLine("1- Liste des attrcatuions avec un besoin specifique \n2- Liste des attractions en maintenance\n3- Liste des attractions ouvertes" +
                "\n4- Listes des boutiques\n5- Liste des DarkRides\n6- Liste des Rollercoasters \n7- Liste des Spectacles ");
@@ -515,37 +522,37 @@ namespace ProjetS6
             {
                 case 1:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest1);//RemoveAll() supprime toues les attractions de ma_selection pour lesquelles le test renvoie true
+                    ma_selection.RemoveAll((obj) => { return obj.pas_besoinspecifique(); });//RemoveAll() supprime toues les attractions de ma_selection pour lesquelles le test renvoie true
                     Console.WriteLine("");
                     break;
                 case 2:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest2);
+                    ma_selection.RemoveAll((obj) => { return obj.pas_maintenance(); }); // removeAll prend un delegate donc on lui envoie une expression lambda
                     Console.WriteLine("");
                     break;
                 case 3:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest3);
-                    Console.WriteLine("");    
+                    ma_selection.RemoveAll((obj) => { return obj.pas_ouvert(); });
+                    Console.WriteLine("");
                     break;
                 case 4:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest4);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Boutique) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 5:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest5);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is DarkRide) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 6:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest6);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is RollerCoaster) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 7:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(montest7);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Spectacle) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
 
@@ -556,75 +563,6 @@ namespace ProjetS6
 
         }
 
-        //Si le test renvoie true l'attraction a est supprimée
-
-        //Test si l'attraction a un besoin spécifique
-        private bool montest1(Attraction a)
-        {
-            bool resultat = false;
-
-            resultat = a.pas_besoinspecifique();
-            return resultat;
-          
-        }
-        //Test si l'attraction est en maintenance
-        private bool montest2(Attraction a)
-        {
-            bool resultat = a.pas_maintenance();
-            return resultat;
-
-        }
-        //Test si l'attraction est ouverte
-        private bool montest3(Attraction a)
-        {
-            bool resultat = a.pas_ouvert();
-            return resultat;
-
-        }
-        //Test si l'attraction est une boutique
-        private bool montest4(Attraction a)
-        {
-
-            bool resultat = true;
-
-            if(a is Boutique) { resultat = false; }
-            
-            return resultat;
-
-        }
-        //Test si l'attraction est un DrakRide
-        private bool montest5(Attraction a)
-        {
-
-            bool resultat = true;
-
-            if (a is DarkRide) { resultat = false; }
-
-            return resultat;
-
-        }
-        //Test si l'attraction est un Rollercoaster
-        private bool montest6(Attraction a)
-        {
-
-            bool resultat = true;
-
-            if (a is RollerCoaster) { resultat = false; }
-
-            return resultat;
-
-        }
-        //Test si l'attraction est un Spectacle
-        private bool montest7(Attraction a)
-        {
-
-            bool resultat = true;
-
-            if (a is Spectacle) { resultat = false; }
-
-            return resultat;
-
-        }
 
         //---------------------------------------------------------------------------------------------
 
@@ -633,7 +571,12 @@ namespace ProjetS6
         {
             List<Personnel> ma_selection = new List<Personnel>();
 
-            ma_selection = toutLePersonnel;
+
+            //avant ca modifié la liste vu que tu lui envoyer l'adresse directement
+            for (int i = 0; i < toutLePersonnel.Count(); i++)
+            {
+                ma_selection.Add(toutLePersonnel.ElementAt(i));
+            }
 
             Console.WriteLine("1- Liste des monstres affecté a une Boutique \n2- Liste des monstres affecté a un DarkRide\n3- Liste des monstres affecté a un RollerCoaster" +
                "\n4- Liste des monstres affecté a un Spectacle\n5- Liste des Sorciers\n6- Liste des Démons \n7- Liste des Loups-Garous\n8- Liste des vampires\n9- Liste des Fantômes\n10- Liste des Zombies ");
@@ -645,52 +588,52 @@ namespace ProjetS6
             {
                 case 1:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test1);
+                    ma_selection.RemoveAll((obj) => { bool resultat = false; if (obj is Monstre) { resultat = (obj as Monstre).affectation_Boutique(); } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 2:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test2);
+                    ma_selection.RemoveAll((obj) => { bool resultat = false; if (obj is Monstre) { resultat = (obj as Monstre).affectation_DarkRide(); } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 3:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test3);
+                    ma_selection.RemoveAll((obj) => { bool resultat = false; if (obj is Monstre) { resultat = (obj as Monstre).affectation_Rollercoaster(); } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 4:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test4);
+                    ma_selection.RemoveAll((obj) => { bool resultat = false; if (obj is Monstre) { resultat = (obj as Monstre).affectation_Spectacle(); } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 5:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test5);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Sorcier) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 6:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test6);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Demon) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 7:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test7);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is LoupGarou) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 8:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test8);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Vampire) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 9:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test9);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Fantome) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
                 case 10:
                     Console.WriteLine("");
-                    ma_selection.RemoveAll(test10);
+                    ma_selection.RemoveAll((obj) => { bool resultat = true; if (obj is Zombie) { resultat = false; } return resultat; });
                     Console.WriteLine("");
                     break;
 
@@ -700,97 +643,82 @@ namespace ProjetS6
 
         }
 
-        //Si le test renvoie true le personnel a est supprimé
 
-       //Test si le personnel a une affectation sur une boutique
-        private bool test1(Personnel a)
+
+        //---------------------------TRIE-----------------------
+
+        public List<Personnel> trierZombieParCagnotte(List<Personnel> monPersonnels)
         {
-            bool resultat = false;
+            List<Zombie> mesZombies = new List<Zombie>();
+            List<Personnel> newPers = new List<Personnel>();
+            foreach (Personnel i in monPersonnels)
+            {
+                if (i is Zombie) mesZombies.Add((Zombie)i);
+            }
 
-            if (a is Monstre) { resultat = (a as Monstre).affectation_Boutique(); }
-            return resultat;
+            mesZombies.Sort();
+            foreach (Zombie i in mesZombies)
+            {
+                newPers.Add((Personnel)i);
+            }
+            return newPers;
 
         }
-        //Test si le personnel a une affectation sur un DarkRide
-        private bool test2(Personnel a)
-        {
-            bool resultat = false;
 
-            if (a is Monstre) { resultat = (a as Monstre).affectation_DarkRide(); }
-            return resultat;
+        public List<Personnel> trierDemonParForce(List<Personnel> monPersonnels)
+        {
+            List<Demon> mesDemon = new List<Demon>();
+            List<Personnel> newPers = new List<Personnel>();
+
+            foreach (Personnel i in monPersonnels)
+            {
+                if (i is Demon) mesDemon.Add((Demon)i);
+            }
+
+            mesDemon.Sort();
+            foreach (Demon i in mesDemon)
+            {
+                newPers.Add((Personnel)i);
+            }
+            return newPers;
+
 
         }
-        //Test si le personnel a une affectation sur un Rollercoaster
-        private bool test3(Personnel a)
+
+        public List<Attraction> trierSpectacleParNbPlace(List<Attraction> mesAttractions)
         {
-            bool resultat = false;
+            List<Spectacle> mesSpect = new List<Spectacle>();
+            List<Attraction> newAttract = new List<Attraction>();
 
-            if (a is Monstre) { resultat = (a as Monstre).affectation_Rollercoaster(); }
-            return resultat;
+            foreach (Attraction i in mesAttractions)
+            {
+                if (i is Spectacle) mesSpect.Add((Spectacle)i);
+            }
+            mesSpect.Sort();
 
+            foreach (Spectacle i in mesSpect)
+            {
+                newAttract.Add((Attraction)i);
+            }
+            return newAttract;
         }
-        //Test si le personnel sur un Spectacle
-        private bool test4(Personnel a)
+
+        public List<Personnel> trierVampireParIndice(List<Personnel> mesPers)
         {
-            bool resultat = false;
+            List<Personnel> mesVamp = new List<Personnel>();
+            List<Personnel> newPers = new List<Personnel>();
 
-            if (a is Monstre) { resultat = (a as Monstre).affectation_Spectacle(); }
-            return resultat;
+            foreach (Personnel i in mesPers)
+            {
+                if (i is Vampire) mesVamp.Add((Vampire)i);
+            }
+            mesVamp.Sort();
 
-        }
-        //Test si le personnel est un sorcier
-        private bool test5(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is Sorcier) { resultat = false; }
-            return resultat;
-
-        }
-        //Test si le personnel est un démon
-        private bool test6(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is Demon) { resultat = false ; }
-            return resultat;
-
-        }
-        //Test si le personnel est un Loup-Garou
-        private bool test7(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is LoupGarou) { resultat = false; }
-            return resultat;
-
-        }
-        //Test si le personnel est un Vampire
-        private bool test8(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is Vampire) { resultat = false; }
-            return resultat;
-
-        }
-        //Test si le personnel est un Fantome
-        private bool test9(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is Fantome) { resultat = false; }
-            return resultat;
-
-        }
-        //Test si le personnel est un Zombie
-        private bool test10(Personnel a)
-        {
-            bool resultat = true;
-
-            if (a is Zombie) { resultat = false; }
-            return resultat;
-
+            foreach (Vampire i in mesVamp)
+            {
+                newPers.Add((Personnel)i);
+            }
+            return newPers;
         }
     }
 }
