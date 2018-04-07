@@ -316,16 +316,27 @@ namespace ProjetS6
                 int id = int.Parse(Console.ReadLine());
                 for (int i = 0; i < attractions.Count; i++)
                 {
-                    if (attractions[i].Identifiant == id) { affectation = attractions.ElementAt(i); }
+                    if (attractions[i].Identifiant == id)
+                    {
+                        affectation = attractions.ElementAt(i);
+
+                        attractions.ElementAt(i).Equipe.Add()
+                    }
                 }
             }
             catch (InvalidCastException e) { Console.WriteLine(e.Message); }
             Console.WriteLine("");
-
             Monstre b = new Monstre(a.Matricule, a.Nom, a.Prenom, a.Sexe, a.Function, cagnotte, affectation);
+
+            for (int i = 0; i < attractions.Count; i++)
+            {
+                if (attractions[i]==b.Affectation)
+                {
+                    attractions.ElementAt(i).Equipe.Add(b);
+                }
+            }
+
             return b;
-
-
         }
 
         //ajouter un sorcier dans une liste de personnel
@@ -720,5 +731,7 @@ namespace ProjetS6
             }
             return newPers;
         }
+
+      
     }
 }

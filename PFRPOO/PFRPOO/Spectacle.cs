@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 namespace ProjetS6
 {
-    public class Spectacle:Attraction
+    public class Spectacle:Attraction,IComparable<Spectacle>
     {
         //Les attributs
         private List<DateTime> horaire;
@@ -29,6 +29,11 @@ namespace ProjetS6
         {
             
             return base.ToString()+"Type attraction : Spectacle\nNom salle : " + nomSalle + "\nNombre de places : " + nombrePlace+"\n";
+        }
+
+        public int CompareTo(Spectacle a)
+        {
+            return nombrePlace.CompareTo(a.nombrePlace);
         }
     }
 }

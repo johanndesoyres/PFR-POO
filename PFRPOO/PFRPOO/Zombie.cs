@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ProjetS6
 {
-    public class Zombie : Monstre
+    public class Zombie : Monstre, IComparable<Zombie>
     {
         
 
@@ -28,6 +28,11 @@ namespace ProjetS6
         public override string ToString()
         {
             return "\nZOMBIE: "+base.ToString() + "CouleurZ:" + Teint + "\nDegre de decomposition: "+DegreDecomposition+"\n";
+        }
+
+        public int CompareTo(Zombie a )
+        {
+            return Cagnotte.CompareTo(a.Cagnotte);
         }
     }
 }

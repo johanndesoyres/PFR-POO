@@ -381,6 +381,22 @@ namespace ProjetS6
             }
         }
 
+        //Controle de la cagnotte de chacun des monstres
+        /*public void controle_cagnotte(Administration monAdmi)
+        {
+            foreach (Personnel i in monAdmi.ToutLePersonnel)
+            {
+                if (i is Monstre)
+                {
+                    if ((i as Monstre).Cagnotte < 50)
+                    {
+                        monAdmi.Attraction
+                        
+                    }
+                }
+            }
+        }*/
+
         //Menu
         static void Menu(Administration monAdmi, string chemin)
         {

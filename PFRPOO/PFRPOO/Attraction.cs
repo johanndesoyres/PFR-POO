@@ -27,6 +27,7 @@ namespace ProjetS6
         public int NbMinMonstre { get => nbMinMonstre; set => nbMinMonstre = value; }
         public string TypeDeBesoin { get => typeDeBesoin; set => typeDeBesoin = value; }
         public bool BesoinSpecifique { get => besoinSpecifique; set => besoinSpecifique = value; }
+        public List<Monstre> Equipe { get => equipe; set => equipe = value; }
 
         public Attraction()
         { }
@@ -35,7 +36,7 @@ namespace ProjetS6
         {
             this.BesoinSpecifique = besoinSpecifique;
             this.dureeMaintenance = new TimeSpan(0,0,0);
-            this.equipe = null;
+            this.Equipe = null;
             this.maintenance = false;
             this.identifiant = identifiant;
             this.natureMaintenance = null;

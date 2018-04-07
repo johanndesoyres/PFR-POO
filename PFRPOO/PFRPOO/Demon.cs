@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ProjetS6
 {
-    public class Demon : Monstre
+    public class Demon : Monstre, IComparable<Demon>
     {
         private int force;
 
@@ -22,6 +22,11 @@ namespace ProjetS6
         public override string ToString()
         {
             return "\nDEMON: "+base.ToString() + "Force :" + Force + "\n";
+        }
+
+        public int CompareTo(Demon a)
+        {
+            return force.CompareTo(a.force);
         }
     }
 }

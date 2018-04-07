@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ProjetS6
 {
-    public class Vampire : Monstre
+    public class Vampire : Monstre, IComparable<Vampire>
     {
         private float indiceLuminosite;
 
@@ -21,6 +21,11 @@ namespace ProjetS6
         public override string ToString()
         {
             return "\nVAMPIRE: "+base.ToString() + "Indice de luminosité :" + IndiceLuminosite +"\n";
+        }
+
+        public int CompareTo(Vampire a)
+        {
+            return indiceLuminosite.CompareTo(a.indiceLuminosite);
         }
     }
 }
