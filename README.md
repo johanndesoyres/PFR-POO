@@ -12,5 +12,6 @@ Mon application a plusieurs fonctionnalités qui sont les suivantes :
 - Modifier la cagnotte des membres du personnel
 
 
+
 Pour le design de mon application j'ai utilisé l’extension Blend.
-J'ai choisi Blend car c'est un outil puissant pour faire le design d'une application desktop.
+J'ai choisi Blend car c'est un outil puissant pour faire le design d'une application desktop. Johann et Henri.
